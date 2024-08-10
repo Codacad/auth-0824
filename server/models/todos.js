@@ -8,6 +8,7 @@ const todoSchema = Schema(
       trim: true,
       minlength: [3, "Title must be at least 3 characters long"],
       maxlength: [100, "Title must be less than 100 characters long"],
+      unique:true
     },
     description: {
       type: String,
@@ -24,7 +25,7 @@ const todoSchema = Schema(
   { timestamps: true }
 );
 
-todoSchema.index({ title: 1 }, { unique: true });
+// await todoSchema.index({ title: 1 }, { unique: true });
 
 const Todo = model("Todo", todoSchema);
 export default Todo;

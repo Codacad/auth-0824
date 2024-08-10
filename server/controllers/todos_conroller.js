@@ -11,6 +11,9 @@ export const getTodos = async (req, res) => {
 // Create Todo
 export const createTodo = async (req, res) => {
   const { title, description, completed } = req.body;
+  if (!title || !description) {
+    return res.status(400).send({ message: "All fields are required!" });
+  }
   try {
     const newTodo = {
       title,
@@ -27,7 +30,7 @@ export const createTodo = async (req, res) => {
     }
 
     if (error.name === "ValidationError") {
-      return res.status(400).send(error.errors.title.message);
+      return res.status(400).send({ message: error.errors.title.message });
     }
     return res.status(500).json({ message: "Internal Server Error" });
   }

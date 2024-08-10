@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { IoCloseSharp } from "react-icons/io5";
 import gsap from "gsap";
@@ -11,8 +11,10 @@ import {
 } from "../state/api/todoApis";
 const Home = () => {
   const createTodoFormRef = useRef();
+  const responsePopupRef = useRef();
   const [isActive, setIsActive] = useState(false);
-  const [todo, setTodo] = useState({ title: "", description: "" });
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
   const [createTodoResponse, setCreateTodoResponse] = useState("");
   const { data: todos, isError, isLoading } = useGetTodosQuery();
   const [addTodo, { isLoading: isAdding, isError: isAddError }] =
@@ -24,33 +26,50 @@ const Home = () => {
 
   const handleAddTodo = async (e) => {
     e.preventDefault();
-    if (!todo.title || !todo.description) {
-      setCreateTodoResponse("All fields are required");
-      return
-    }
     try {
-      const response = await addTodo(todo);
-      if (response.data?.message === "Created") {
-        setCreateTodoResponse(response.data.message);
+      const response = await addTodo({ title, description });
+      if (response.error) {
+        setCreateTodoResponse(
+          response.error.data.message || response.error.error
+        );
       } else {
-        setCreateTodoResponse(response.error.data.message);
+        setCreateTodoResponse(response.data.message);
+        setIsActive(false);
+        setTitle("");
+        setDescription("");
       }
+      responsePopupRef.current.classList.remove("hide");
     } catch (error) {
       console.log(error.error);
     }
   };
 
+  useEffect(() => {}, [isActive]);
+
   return (
     <>
-      <div className="main min-h-screen relative">
+      <div className="main relative">
         <div
-          className={`rounded-md add-message fixed -top-32 left-[50%] -translate-x-[50%] z-20`}
+          ref={responsePopupRef}
+          className={`hide rounded-md add-message fixed top-10 left-[50%] -translate-x-[50%] z-20`}
         >
-          <span className="px-4 py-2 shadow-md bg-red-100 rounded-md">
-            {createTodoResponse}
+          <span
+            className={`px-4 py-2 shadow-md ${
+              createTodoResponse === "Created"
+                ? "text-green-700 bg-green-300"
+                : "text-red-700 bg-red-300"
+            } rounded-md flex items-center gap-4`}
+          >
+            <span>{createTodoResponse}</span>
+            <span
+              onClick={() => responsePopupRef.current.classList.add("hide")}
+              className="text-xl cursor-pointer"
+            >
+              <IoCloseSharp />
+            </span>
           </span>
         </div>
-        <div className="cotents flex items-center justify-center flex-col md:w-[70%] mx-auto p-8 bg-[rgba(255,255,255,.2)]">
+        <div className="cotents shadow-2xl flex items-center justify-center flex-col md:w-[70%] mx-auto p-8 bg-[rgba(255,255,255,.2)]">
           <h1 className="text-4xl mb-4">Welcome to Todoism</h1>
           <p>
             Lorem ipsum, dolor sit amet consectetur adipisicing elit. Earum fuga
@@ -75,6 +94,17 @@ const Home = () => {
         </div>
       </div>
 
+      {/* Todos */}
+
+      <div className="todos">
+        {todos?.map((todo) => (
+          <div key={todo._id}>
+            <h2>{todo.title}</h2>
+            <p>{todo.description}</p>
+          </div>
+        ))}
+      </div>
+
       {/* Create Todo Model */}
       <div
         className={`create-todo fixed top-0 left-0 w-full h-full bg-[rgba(0,0,0,.5)] ${
@@ -94,15 +124,17 @@ const Home = () => {
             type="text"
             className="px-4 py-2 bg-[rgba(0,0,0,.1)] outline-none text-gray-950 rounded-md placeholder:text-gray-950 relative z-0 focus:ring-2 ring-[#006989] input-placeholder"
             id="title"
+            value={title}
             placeholder="Title"
-            onChange={(e) => setTodo({ ...todo, title: e.target.value })}
+            onChange={(e) => setTitle(e.target.value)}
           />
           <input
             type="text"
             className="px-4 py-2 bg-[rgba(0,0,0,.1)] outline-none rounded-md text-gray-950 placeholder:text-gray-950 focus:ring-2 ring-[#006989] input-placeholder"
             id="description"
             placeholder="Description"
-            onChange={(e) => setTodo({ ...todo, description: e.target.value })}
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
           />
           <button
             onClick={(e) => handleAddTodo(e)}
@@ -111,7 +143,10 @@ const Home = () => {
             {isAdding ? "Adding Todo" : "Add Todo"}
           </button>
           <span
-            onClick={() => setIsActive(false)}
+            onClick={() => {
+              setIsActive(false);
+              responsePopupRef.current.classList.add("hide");
+            }}
             className="absolute w-8 h-8 flex justify-center items-center cursor-pointer hover:bg-[rgba(0,0,0,.1)] rounded-full top-6 right-6"
           >
             <IoCloseSharp

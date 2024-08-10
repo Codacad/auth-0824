@@ -28,4 +28,7 @@
         top: -20px;
         z-index: 10;
     }
+    .hide{
+        top: -100px;
+    }
 }
