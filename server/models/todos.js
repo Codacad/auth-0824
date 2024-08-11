@@ -8,7 +8,7 @@ const todoSchema = Schema(
       trim: true,
       minlength: [3, "Title must be at least 3 characters long"],
       maxlength: [100, "Title must be less than 100 characters long"],
-      unique:true
+      unique: true,
     },
     description: {
       type: String,
@@ -18,6 +18,14 @@ const todoSchema = Schema(
       maxlength: [500, "Description must be less than 500 characters long"],
     },
     completed: {
+      type: Boolean,
+      default: false,
+    },
+    focused: {
+      type: Boolean,
+      default: false,
+    },
+    favorite: {
       type: Boolean,
       default: false,
     },

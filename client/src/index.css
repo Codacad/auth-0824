@@ -1,34 +1,79 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-@import url('https://fonts.googleapis.com/css2?family=Alegreya:ital,wght@0,400..900;1,400..900&family=Aleo:ital,wght@0,100..900;1,100..900&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Space+Grotesk:wght@300..700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Alegreya:ital,wght@0,400..900;1,400..900&family=Aleo:ital,wght@0,100..900;1,100..900&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Space+Grotesk:wght@300..700&display=swap");
 
-@layer utilities{
-    .bg-global{
-        background: linear-gradient(to right, #FBF3D5, #9CAFAA);
-    }
-    .bg-button-one{
-        background: linear-gradient(to left, #55AD9B, #95D2B3);
-    }
-    .button-create{
-        background: linear-gradient(to right, #006989, #005C78);
-        color: white;
-    }
-    .button-create:active{
-        transform: scale(.95);
-        transition: transform .2s cubic-bezier(0.19, 1, 0.22, 1);
-    }
-    .bg-create-todo-form{
-        background: linear-gradient(to left, #55AD9B, #95D2B3);
-    }
+@layer utilities {
+  .bg-global {
+    background: linear-gradient(to right, #fbf3d5, #9cafaa);
+  }
+  .bg-button-one {
+    background: linear-gradient(to left, #55ad9b, #95d2b3);
+  }
+  .button-create {
+    background: linear-gradient(to right, #006989, #005c78);
+    color: white;
+  }
+  .bg-login-button{
+    background: linear-gradient(to right, #006989, #005c78);
+    border-radius: 5px;
+    transition: transform 150ms cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  }
+  .bg-login-button:active{
+    transform: scale(.98);
+  }
+  .button-create:active {
+    transform: scale(0.95);
+    transition: transform 0.2s cubic-bezier(0.19, 1, 0.22, 1);
+  }
+  .bg-create-todo-form {
+    background: linear-gradient(to left, #55ad9b, #95d2b3);
+  }
 
-    .input-placeholder:focus::placeholder{
-        position: absolute;
-        transition: all 200ms ease-in;
-        top: -20px;
-        z-index: 10;
-    }
-    .hide{
-        top: -100px;
-    }
+  .input-placeholder:focus::placeholder {
+    position: absolute;
+    transition: all 200ms ease-in;
+    top: -20px;
+    z-index: 10;
+  }
+  .hide {
+    top: -100px;
+  }
+  .bg-dark-blue {
+    background: linear-gradient(to right, #006989, #005c78);
+  }
+  .text-color {
+    color: #006989;
+  }
+
+  /* customized Scrollbar */
+
+  /* Entire scrollbar */
+  .customzed-scrollbar::-webkit-scrollbar {
+    width: 8px; /* Width of the scrollbar */
+  }
+
+  /* Track (background of the scrollbar) */
+  .customzed-scrollbar::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.2); /* Background color */
+  }
+
+  /* Handle (the draggable part of the scrollbar) */
+  .customzed-scrollbar::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.3); /* Scrollbar color */
+    border-radius: 5px;
+  }
+
+  /* Styling for WebKit browsers */
+  .customzed-scrollbar::-webkit-scrollbar {
+    width: 12px;
+  }
+
+  .customzed-scrollbar::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.2);
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background-color: #006989;
+  }
 }

@@ -1,6 +1,6 @@
 // src/features/todos/todosApiSlice.js
 
-import {createApi, fetchBaseQuery} from "@reduxjs/toolkit/query/react"
+import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 export const todosApi = createApi({
   reducerPath: "todosApi",

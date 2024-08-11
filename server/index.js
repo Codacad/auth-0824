@@ -7,7 +7,7 @@ import todoRoutes from "./routes/todo_routes.js";
 configDotenv();
 const app = express();
 const PORT = process.env.PORT || 3001;
-dbConnection(process.env.MONGODB_URI);
+dbConnection(process.env.DB_URI);
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cors());
